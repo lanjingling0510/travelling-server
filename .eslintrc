@@ -1,0 +1,15 @@
+{
+    "extends": "eslint-config-airbnb",
+    "rules": {
+        // not use babel yet
+        "strict": 0,          // http://eslint.org/docs/rules/strict
+        "indent": [2, 4],                // http://eslint.org/docs/rules/
+        "no-use-before-define": 0,       // http://eslint.org/docs/rules/no-use-before-define
+        "func-names": 0,
+        "space-before-function-paren": [2, {"anonymous": "always", "named": "never"}], // http://eslint.org/docs/rules/space-before-function-paren// http://eslint.org/docs/rules/func-names
+        "new-cap": [0, {                 // http://eslint.org/docs/rules/new-cap
+            "newIsCap": true
+        }],
+        "comma-dangle": [2, "never"],    // http://eslint.org/docs/rules/comma-dangle
+    }
+}
