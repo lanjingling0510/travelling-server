@@ -15,50 +15,27 @@ const ObjectId = require('mongoose').Types.ObjectId;
 
 const createUser = function* () {
     const ctx = this;
-
-    //if (ctx.request.body.password)
-
-    const user = {
-        username: ctx.request.body.username,
-        passhash: hashword.hashPassword(ctx.request.body.password),
-        updatedAt: new Date()
-    };
-
-
+    const password = ctx.request.body.password;
     try {
-        const result = yield User.create(user);
+        if (!(/^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{6,22}$/.test(password))) {
+            throw new Error('密码长度为6-22!');
+        }
+
+        const user = {
+            username: ctx.request.body.username,
+            passhash: hashword.hashPassword(password),
+            updatedAt: new Date()
+        };
+
+        yield User.createUser(user);
         ctx.body = '注册成功';
         ctx.status = 200;
     } catch (e) {
-        if (e.code === 11000) {
-            ctx.body = '账号重复';
-            ctx.status = 409;
-        } else {
-            ctx.body = e.message;
-            ctx.status = 412;
-        }
+        ctx.body = e.message;
+        ctx.status = 412;
     }
 };
 
-
-/* ================================
- =       update User
- @api  put  /user/123456
- ================================ */
-
-const updateUser = function* () {
-    const ctx = this;
-    const field = ctx.request.body;
-    const _id = ctx.params._id;
-    try {
-        const result = yield User.findByIdAndUpdate(_id, {$set: field});
-        ctx.body = '修改成功';
-        ctx.status = 200;
-    } catch (e) {
-        ctx.body = '修改错误';
-        debug(e.message);
-    }
-};
 
 /* ================================
  =       find Users
@@ -67,15 +44,30 @@ const updateUser = function* () {
 
 const findUsers = function* () {
     const ctx = this;
+    const query = ctx.query;
+    const match = {};
+
+    if (query.search) {
+        match[query.search] = query.keyword;
+    }
+
     try {
-        const result = yield User.aggregate({$match: {}}).exec();
+        const result = yield User.aggregate()
+            .match(match)
+            .sort({[query.orderBy]: query.order})
+            .skip(query.page * query.limit)
+            .limit(Number(query.limit))
+            .exec();
         ctx.body = result;
         ctx.status = 200;
     } catch (e) {
-        ctx.body = '查询失败';
+        ctx.body = e.message;
+        ctx.status = 412;
         debug(e.message);
     }
 };
+
+
 
 /* ================================
  =       find User
@@ -86,14 +78,45 @@ const findUser = function* () {
     const ctx = this;
     const _id = ctx.params._id;
     try {
-        const result = yield User.aggregate().match({_id: new ObjectId(_id)}).exec();
+        const result = yield User.aggregate()
+            .match({_id: new ObjectId(_id)})
+            .exec();
         ctx.body = result;
         ctx.status = 200;
     } catch (e) {
-        ctx.body = '查询失败';
+        ctx.body = e.message;
+        ctx.status = 412;
         debug(e.message);
     }
 };
+
+/* ================================
+ =       update User
+ @api  put  /user/123456
+ ================================ */
+
+const updateUser = function* () {
+    const ctx = this;
+    const field = ctx.request.body;
+    const _id = ctx.params._id;
+    const password = field.password;
+
+    try {
+        if (password && !(/^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{6,22}$/.test(password))) {
+            throw new Error('密码长度为6-22!');
+        }
+
+        password && (field.passhash = hashword.hashPassword(password));
+        yield User.updateUser({_id: _id}, field);
+        ctx.body = '修改成功';
+        ctx.status = 200;
+    } catch (e) {
+        ctx.body = e.message;
+        ctx.status = 412;
+        debug(e.message);
+    }
+};
+
 
 router.post('/', createUser);
 router.get('/', passport.authenticate('jwt', {session: false}), findUsers);

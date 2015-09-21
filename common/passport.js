@@ -15,7 +15,6 @@ passport.use(new LocalStrategy({
 }, function (username, password, done) {
     co(function*() {
         const admin = yield User.findOne({username: username});
-        debug(admin);
         if (!admin) {
             return done(null, false);
         }

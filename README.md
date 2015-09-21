@@ -1,19 +1,11 @@
-# koa-template
-A koajs server including registration and login background template
+# 自由行API文档
 
-## 主要的依赖包括：
+> created by cyt
 
-* koa-router
-* koa-body
-* koa-passport
-* passport-jwt
-* passport-local
-* mongoose
+> 9/18/2015 1:29:33 PM
 
+## API相关接口
 
-
-## 运行
-
-    `npm install`
-    `npm run start`
-
+- [user接口](./user/getList "user接口")
+- [label接口](./label.html "label接口")
+- [share接口](./share.html "share接口")

@@ -25,14 +25,18 @@ app.use(koaBody(
     }
 ));
 
+
 app
     .use(logger())
     .use(conditional())
     .use(etag())
     .use(cors({origin: '*'}))
     .use(passport.initialize())
+    .use(require('./doc').routes())
     .use(require('./auth').routes())
-    .use(require('./user').routes());
+    .use(require('./user').routes())
+    .use(require('./label').routes())
+    .use(require('./share').routes());
 
 app.on('error', function (err, ctx) {
     debug('server error', err);

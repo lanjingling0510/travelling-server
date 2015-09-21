@@ -4,7 +4,6 @@ const router = require('koa-router')();
 const passport = require('../common/passport');
 const config = require('../config.json');
 const jwt = require('jsonwebtoken');
-const debug = require('debug')('app:auth');
 
 // 通过用户名密码换取token，使用JSON Web Token
 const exchangeToken = function* () {
