@@ -1,6 +1,7 @@
 {
   "name" : "koa-template",
   "mongoose": {
+    "debug": false,
     "url": "mongodb://www.cyt-rain.cn:27017/travelling"
   },
   "jwt": {

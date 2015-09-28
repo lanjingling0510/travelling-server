@@ -15,7 +15,7 @@ const UserSchema = mongoose.Schema({
     type: {type: String, default: 'user'},
     createdAt: {type: Date, default: Date.now},
     updatedAt: Date
-}, {collection: 'Users', versionKey:false});
+}, {collection: 'Users', versionKey: false});
 
 
 /*  =================
@@ -34,7 +34,6 @@ UserSchema.statics.createUser = function (newData) {
 UserSchema.statics.updateUser = function (query, update) {
     return new Promise((resolve, reject) => {
         this.updateOne(query, update, function (err, doc) {
-            console.log(doc);
             if (err) reject(err);
             resolve(doc);
         });

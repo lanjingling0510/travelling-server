@@ -9,5 +9,5 @@ db.on('error', (err) => {
     console.log('mongodb connection error:%s', err);
 });
 
-mongoose.set('debug', true);
+mongoose.set('debug', config.mongoose.debug);
 exports.mongoose = mongoose;

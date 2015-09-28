@@ -4,6 +4,7 @@
   "description": "a node server depend on jwt Authentication",
   "main": "index.js",
   "scripts": {
+    "test": "./node_modules/.bin/mocha --harmony --bail --reporter spec test/functional",
     "start": "nodemon --harmony -e js,json index.js"
   },
   "author": "cyt",
@@ -30,8 +31,11 @@
   },
   "devDependencies": {
     "babel-eslint": "^4.1.1",
+    "chai": "^3.3.0",
     "eslint": "^1.3.1",
     "eslint-config-airbnb": "0.0.8",
-    "eslint-plugin-react": "^3.3.1"
+    "eslint-plugin-react": "^3.3.1",
+    "mocha": "^2.3.3",
+    "supertest": "^1.1.0"
   }
 }
