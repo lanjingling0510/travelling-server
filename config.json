@@ -8,12 +8,14 @@
     "secret": "rdcfvghnjmrdcfvghnim",
     "algorithm": "HS256",
     "expires_in_minutes": 3600,
-    "subject": "admin verify",
-    "issuer": "admin auth system",
-    "audience": "http://www.cyt-rain.com"
+    "subject": "travelling verify",
+    "issuer": "travelling auth system",
+    "audience": "http://travelling.cyt-rain.cn"
   },
   "upload": {
-    "temp": "./upload/temp",
+    "root": "/root/opt/travelling",
+    "tempPath": "/upload/temp",
+    "uploadPath": "/upload/files",
     "limits": {
       "files": 1,
       "fileSize": 10485760

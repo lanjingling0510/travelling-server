@@ -1,6 +1,7 @@
 'use strict';
 
 const mongoose = require('../common/db').mongoose;
+const Schema = mongoose.Schema;
 const mongooseValidateFilter = require('mongoose-validatefilter');
 const validate = new mongooseValidateFilter.validate();
 const filter = new mongooseValidateFilter.filter();
@@ -13,6 +14,23 @@ const UserSchema = mongoose.Schema({
     rank: {type: Number, default: 0},
     experience: {type: Number, default: 0},
     type: {type: String, default: 'user'},
+    avatar: {type: String, default: '/images/avatar.jpg'},
+    fans: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    followings: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    collections: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Share'
+    }],
+    shares: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Share'
+    }],
     createdAt: {type: Date, default: Date.now},
     updatedAt: Date
 }, {collection: 'Users', versionKey: false});

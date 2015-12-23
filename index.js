@@ -3,6 +3,7 @@
 const app = module.exports = require('koa')();
 const cors = require('koa-cors');
 const config = require('./config.json');
+const path = require('path');
 const logger = require('koa-logger');
 const passport = require('./common/passport');
 const debug = require('debug')('app:index');
@@ -14,11 +15,10 @@ const etag = require('koa-etag');
 
 app.proxy = true;
 app.name = config.name;
-
 app.use(koaBody(
     {
         formidable: {
-            uploadDir: __dirname,
+            uploadDir: path.join(config.upload.root, config.upload.tempPath),
             maxFieldsSize: config.upload.limits.fileSize
         },
         multipart: true
@@ -36,7 +36,8 @@ app
     .use(require('./auth').routes())
     .use(require('./user').routes())
     .use(require('./label').routes())
-    .use(require('./share').routes());
+    .use(require('./share').routes())
+    .use(require('./upload').routes());
 
 app.on('error', function (err, ctx) {
     debug('server error', err);

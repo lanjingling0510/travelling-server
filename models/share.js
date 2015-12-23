@@ -5,8 +5,8 @@ const Schema = mongoose.Schema;
 
 const ShareSchema = Schema({
     text: String,
-    imgs: {type: [String], default: []},
-    location: {type: [Number], index: '2d'},
+    images: {type: [String], default: []},
+    coordinates: {type: [Number], index: '2d'},
     labels: [{
         type: Schema.Types.ObjectId,
         ref: 'Label'
@@ -15,13 +15,18 @@ const ShareSchema = Schema({
     place: String,
     score: {type: Number, default: 0},
     date: {type: Date, default: Date.now},
-    userId: Schema.Types.ObjectId,
-    replys: {
-        type: [Schema.Types.ObjectId],
-        default: [],
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    replys: [{
+        type: Schema.Types.ObjectId,
         ref: 'Reply'
-    }
-
+    }],
+    favorited: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }]
 }, {collection: 'Shares', versionKey: false});
 
 

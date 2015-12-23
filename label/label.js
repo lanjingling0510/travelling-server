@@ -28,6 +28,18 @@ const createLabel = function* () {
     }
 };
 
+const getLabels = function*() {
+    const ctx = this;
+    try {
+        const labelList = yield Label.find();
+        ctx.body = labelList;
+    } catch (e) {
+        ctx.body = e.message;
+        ctx.status = 412;
+    }
+};
+
+
 /* ================================
  =       get Share
  @api  get  /label/123456/share
@@ -45,7 +57,6 @@ const findSharesByLabel = function* () {
     }
 
     try {
-
         const result = yield Share.aggregate()
             .match(match)
             .sort({[query.orderBy]: query.order})
@@ -60,12 +71,10 @@ const findSharesByLabel = function* () {
         ctx.body = e.message;
         ctx.status = 412;
     }
-
 };
 
 
-
-
+router.get('/', getLabels);
 router.post('/', passport.authenticate('jwt', {session: false}), createLabel);
 router.get('/:_id/share', passport.authenticate('jwt', {session: false}), findSharesByLabel);
 
