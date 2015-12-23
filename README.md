@@ -6,6 +6,4 @@
 
 ## API相关接口
 
-- [user接口](./doc/user/getList.md)
-- [label接口](.doc/label/label.md)
-- [share接口](.doc/share/share.md)
+- [api接口](./doc/api.md)
