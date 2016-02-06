@@ -12,6 +12,14 @@
     "issuer": "travelling auth system",
     "audience": "http://travelling.cyt-rain.cn"
   },
+  "wechat": {
+    "appID": "wx0b574a5d60affc6d",
+    "appSecret": "d4624c36b6795d1d99dcf0547af5443d"
+  },
+  "qq": {
+    "client_id": "tcfvgybnimjk,",
+    "client_secret": "vygbuhnimjk"
+  },
   "upload": {
     "root": "/root/opt/travelling",
     "tempPath": "/upload/temp",

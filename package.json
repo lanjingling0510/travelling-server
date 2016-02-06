@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha --harmony --bail --reporter spec test/functional",
-    "start": "nodemon --harmony -e js,json index.js"
+    "start": "nodemon --harmony -e js,json index.js",
+    "initDB": "babel-node ./bin/init_db.js"
   },
   "author": "cyt",
   "license": "ISC",
@@ -28,6 +29,7 @@
     "mongoose-validatefilter": "0.0.18",
     "passport-jwt": "^1.1.1",
     "passport-local": "^1.0.0",
+    "passport-wechat": "^2.0.2",
     "uuid": "^2.0.1"
   },
   "devDependencies": {

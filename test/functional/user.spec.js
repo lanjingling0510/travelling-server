@@ -3,7 +3,7 @@ const expect = require('chai').expect;
 const app = require('../../index');
 const request = require('supertest').agent(app.listen());
 const co = require('co');
-const data = require('../data/data.json');
+const data = require('../data/users.json');
 const User = require('../../models').User;
 
 const user0 = data.user0;
@@ -14,15 +14,11 @@ const user3 = data.user3;
 let token0 = null;
 let _id0 = null;
 
-beforeEach(function() {
-    console.log('before every test in every file');
-});
+describe('User test ...', function () {
+    this.timeout(20000); // should take less than 20000m
 
-describe('User', function () {
-    this.timeout(20000);
     before(function (done) {
         co(function *() {
-            yield User.remove();
             request
                 .post('/user')
                 .send(user0)
@@ -46,6 +42,26 @@ describe('User', function () {
             done(err);
         });
     });
+
+
+    after(function (done) {
+      co(function *() {
+        yield User.findByIdAndRemove(_id0);
+        done();
+      }).catch(function (err) {
+        done(err);
+      });
+    })
+
+
+    describe('#find', function() {
+      it('should return do not Authorization', function (done) {
+        request
+        .get('/user/' + _id0)
+        .expect(401)
+        .end(done);
+      })
+    })
 
 
     describe('#create', function () {
